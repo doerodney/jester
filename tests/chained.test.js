@@ -72,26 +72,33 @@ function mockGetSecretAsync(targetValue) {
   });
 }
 
-// Test the current values of the core functions.
-let targetValue = 'core secret';
+async function testCoreFunctions(targetValue = 'core secret') {
+  testGetSecret('core getSecret', targetValue);
+  testGetSecretCallback('core getSecretCallback', targetValue);
+  testGetSecretPromise('core getSecretPromise', targetValue);
+  testGetSecretAsync('core getSecretAsync', targetValue);
+}
 
-testGetSecret('core getSecret', targetValue);
-testGetSecretCallback('core getSecretCallback', targetValue);
-testGetSecretPromise('core getSecretPromise', targetValue);
-testGetSecretAsync('core getSecretAsync', targetValue);
 
+async function mockCoreFunctions(targetValue = 'mock secret') {
+  jest.mock('../util/core');
 
-// Mock the functions in the core module.
-jest.mock('../util/core');
-targetValue = 'mock secret';
+  mockGetSecret(targetValue);
+  mockGetSecretCallback(targetValue);
+  mockGetSecretPromise(targetValue);
+  mockGetSecretAsync(targetValue);
+}
 
-mockGetSecret(targetValue);
-mockGetSecretCallback(targetValue);
-mockGetSecretPromise(targetValue);
-mockGetSecretAsync(targetValue);
+async function testMockedCoreFunctions(targetValue = 'mock secret') {
+  testGetSecret('mock core getSecret', targetValue);
+  testGetSecretCallback('mock core getSecretCallback', targetValue);
+  testGetSecretPromise('mock core getSecretPromise', targetValue);
+  testGetSecretAsync('mock core getSecretAsync', targetValue);
+}
 
-// Test the current values of the core functions.
-testGetSecret('mock core getSecret', targetValue);
-testGetSecretCallback('mock core getSecretCallback', targetValue);
-testGetSecretPromise('mock core getSecretPromise', targetValue);
-testGetSecretAsync('mock core getSecretAsync', targetValue);
+testCoreFunctions()
+.then(mockCoreFunctions())
+.then(testMockedCoreFunctions())
+.catch((err) => {
+  console.log(err);
+}); 

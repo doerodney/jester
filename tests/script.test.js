@@ -1,16 +1,5 @@
 const core = require('../util/core');
 
-test('getSecretAsync is not yet mocked', () => {
-  core.getSecretAsync()
-    .then((secret) => {
-      expect(secret).toBeDefined();
-      expect(secret).toEqual('core secret');
-    })
-    .catch((error) => {
-      console.log(error);
-  });
-});
-
 // Mock the functions in the core module.
 jest.mock('../util/core');
 

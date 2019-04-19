@@ -1,5 +1,5 @@
-``exports.getSecret = function() {
-	return 'core secret'
+exports.getSecret = function() {
+	return 'core secret';
 }
 
 exports.getSecretCallback = function(callback) {
@@ -16,6 +16,3 @@ exports.getSecretAsync = (async () => {
   const data = await exports.getSecret();
   return data;
 });
-
-
-``
